@@ -1,6 +1,4 @@
-from flask import (
-    current_app as app
-)
+from flask import current_app
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 from webargs.flaskparser import FlaskParser
@@ -14,7 +12,7 @@ from user_api.models import (
     User,
     Phone
 )
-from user_api.auth import encode_token
+from user_api.auth import generate_jwt_token
 
 
 def error_handler(error):
@@ -38,10 +36,10 @@ class UserResource(Resource):
             user.hash_password(password)
             db.session.add(user)
             db.session.flush()
-            user.token = encode_token(user)
+            user.token = generate_jwt_token(user)
             db.session.commit()
             return UserSchema().dump(user).data
         except IntegrityError as e:
-            app.logger.error(e)
+            current_app.logger.error(e)
             db.session.rollback()
             raise e
