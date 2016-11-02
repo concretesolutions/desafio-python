@@ -1,0 +1,8 @@
+-r requirements.txt
+pytest==3.0.2
+ipdb==0.10.1
+flake8==3.0.4
+pytest-cov==2.2.1
+pytest-mock==1.2
+factory-boy==2.7.0
+-e .

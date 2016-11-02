@@ -1,0 +1,9 @@
+language: python
+python:
+  - "3.5.2"
+services:
+  - mysql
+install:
+   - pip install -r requirements-dev.txt
+script:
+  - py.test --cov=user_api --cov-report=term --cov-report=xml tests/* -s -r a --color=yes
