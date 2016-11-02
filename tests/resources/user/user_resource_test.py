@@ -114,7 +114,7 @@ def test_post_valid(api_test_client, create_valid_params):
                                     headers={"content-type": "application/json"})
     data = json.loads(response.data.decode('utf-8'))
 
-    assert response.status_code == 200
+    assert response.status_code == 201
     for key in ['created', 'email', 'id', 'last_login', 'name', 'phones', 'token']:
         assert data[key] is not None
     assert sorted(data['phones'][0]) == ['ddd', 'number']

@@ -31,7 +31,7 @@ class UserResource(Resource):
         if user:
             if token and user.token != token:
                 return {"mensagem": "Não autorizado"}, 401
-            return UserSchema().dump(user).data
+            return UserSchema().dump(user).data, 200
         else:
             current_app.logger.warn('User with id {} not found'.format(id))
             return {"mensagem": "Usuário não encontrado"}, 404
@@ -52,7 +52,7 @@ class UserResource(Resource):
             user.token = generate_jwt_token(user).decode('utf-8')
             user.last_login_at = datetime.utcnow()
             db.session.commit()
-            return UserSchema().dump(user).data
+            return UserSchema().dump(user).data, 201
         except IntegrityError as err:
             db.session.rollback()
             current_app.logger.error(err)
